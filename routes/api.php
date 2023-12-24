@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RecordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,9 @@ Route::middleware('user')->group(function() {
     Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
     
     // Record
-    Route::get('/records', [CategoryController::class, 'index']);
-    Route::post('/record', [CategoryController::class, 'store']);
-    Route::get('/record/{id}', [CategoryController::class, 'show']);
-    Route::delete('/record/{id}', [CategoryController::class, 'destroy']);
+    Route::get('/records', [RecordController::class, 'index']);
+    Route::post('/record', [RecordController::class, 'store']);
+    Route::get('/record/{id}', [RecordController::class, 'show']);
+    Route::delete('/record/{id}', [RecordController::class, 'destroy']);
 
 });
