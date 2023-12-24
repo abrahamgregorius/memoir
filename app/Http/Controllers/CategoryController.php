@@ -35,8 +35,23 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function show(Request $request) {
+        $category = Category::find($request->id);
+
+        if(!$category) {
+            return response()->json([
+                'message' => 'Category not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Category found',
+            'category' => $category
+        ]);
+    }
+
     public function destroy(Request $request) {
-        $category = Category::find($request->id)->delete();
+         $category = Category::find($request->id)->delete();
 
         if(!$category) {
             return response()->json([
