@@ -35,8 +35,8 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function show(Request $request) {
-        $category = Category::find($request->id);
+    public function show(string $id) {
+        $category = Category::find($id);
 
         if(!$category) {
             return response()->json([
@@ -50,8 +50,8 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function destroy(Request $request) {
-         $category = Category::find($request->id)->delete();
+    public function destroy(string $id) {
+         $category = Category::find($id)->delete();
 
         if(!$category) {
             return response()->json([
