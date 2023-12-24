@@ -14,6 +14,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
+Route::get('/records', [RecordController::class, 'index']);
+Route::post('/record', [RecordController::class, 'store']);
+Route::get('/record/{id}', [RecordController::class, 'show']);
+Route::delete('/record/{id}', [RecordController::class, 'destroy']);
 
 Route::middleware('user')->group(function() {
     Route::post('/logout', [UserController::class, 'logout']);
@@ -25,9 +29,5 @@ Route::middleware('user')->group(function() {
     Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
     
     // Record
-    Route::get('/records', [RecordController::class, 'index']);
-    Route::post('/record', [RecordController::class, 'store']);
-    Route::get('/record/{id}', [RecordController::class, 'show']);
-    Route::delete('/record/{id}', [RecordController::class, 'destroy']);
 
 });
