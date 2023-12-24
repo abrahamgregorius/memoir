@@ -57,5 +57,15 @@ class RecordController extends Controller
     public function destroy(Record $record, Request $request)
     {
         $record = Record::find($request->id)->delete();
+
+        if(!$record) {
+            return response()->json([
+                'message' => 'Record not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Record deleted successfully'
+        ]);
     }
 }
