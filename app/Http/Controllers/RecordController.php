@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Record;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RecordController extends Controller
 {
@@ -15,7 +16,16 @@ class RecordController extends Controller
         $records = Record::get();
 
         return response()->json([
-            'records' => $records
+            'records' => $records->map(function($record) {
+                return [
+                    'id' => $record->id,
+                    'title' => $record->title,
+                    'content' => $record->content,
+                    'author' => $record->user->username,
+                    'category' => $record->category->name,
+                    
+                ];
+            })
         ]);
     }
 
@@ -24,23 +34,45 @@ class RecordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'content' => 'required',
+            'user_id' => 'required|exists:users,id',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'message' => 'Invalid field',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $record = Record::create($request->all());
+        
+        return response()->json([
+            'message' => 'Record created successfully',
+            'record' => $record
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Record $record)
+    public function show(string $id)
     {
-        //
-    }
+        $record = Record::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Record $record)
-    {
-        //
+        if(!$record) {
+            return response()->json([
+                'message' => 'Record not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Record found',
+            'category' => $record
+        ]);
     }
 
     /**
