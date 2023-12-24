@@ -12,7 +12,11 @@ class RecordController extends Controller
      */
     public function index()
     {
-        //
+        $records = Record::get();
+
+        return response()->json([
+            'records' => $records
+        ]);
     }
 
     /**
