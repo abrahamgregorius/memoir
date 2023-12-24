@@ -11,7 +11,12 @@ class CategoryController extends Controller
     public function index() {
         $categories = Category::get();
         return response()->json([
-            'categories' => $categories
+            'categories' => $categories->map(function($category) {
+                return [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                ];
+            })
         ]);
     }
 
@@ -51,14 +56,16 @@ class CategoryController extends Controller
     }
 
     public function destroy(string $id) {
-         $category = Category::find($id)->delete();
-
-        if(!$category) {
-            return response()->json([
-                'message' => 'Category not found'
-            ], 404);
-        }
-
+         $category = Category::find($id);
+         
+         if(!$category) {
+             return response()->json([
+                 'message' => 'Category not found'
+                ], 404);
+            }
+            
+        $category->delete();
+        
         return response()->json([
             'message' => 'Category deleted successfully'
         ]);

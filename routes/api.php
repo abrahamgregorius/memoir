@@ -22,8 +22,7 @@ Route::middleware('user')->group(function() {
     Route::post('/category', [CategoryController::class, 'store']);
     Route::get('/category/{id}', [CategoryController::class, 'show']);
     Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
-
-
+    
     // Record
 
 });
