@@ -20,14 +20,6 @@ class RecordController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -62,8 +54,8 @@ class RecordController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Record $record)
+    public function destroy(Record $record, Request $request)
     {
-        //
+        $record = Record::find($request->id)->delete();
     }
 }
